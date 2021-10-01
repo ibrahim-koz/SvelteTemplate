@@ -11,6 +11,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
+    extraFileExtensions: ['.svelte'],
   },
   plugins: [
     '@typescript-eslint',
@@ -18,7 +19,7 @@ module.exports = {
   ],
   rules: {
     indent: 'off',
-    '@typescript-eslint/in3dent': ['error', 2],
+    '@typescript-eslint/indent': ['error', 2],
   },
   settings: {
     'svelte3/typescript': require('typescript'),
