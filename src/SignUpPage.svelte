@@ -1,26 +1,32 @@
 <script lang="ts">
-  let isDisabled = false;
+  import axios from 'axios';
+
+  let disabled = true;
+  let username;
+  let email;
   let password;
   let passwordRepeat;
-  // eslint-disable-next-line max-len
-  const comparePasswordFields = (password:string, passwordRepeat:string) => password === passwordRepeat;
 
-  const onChangePassword = () => {
-    isDisabled = comparePasswordFields(password, passwordRepeat);
-  };
+  $: disabled = (password && passwordRepeat) ? password !== passwordRepeat : true;
 
-  const onChangePasswordRepeat = () => {
-    isDisabled = comparePasswordFields(password, passwordRepeat);
+  const submit = () => {
+    axios.post('/api/1.0/users', {
+      username,
+      email,
+      password,
+    });
   };
 </script>
 
-<h1>Sign Up</h1>
-<label for="username">Username</label>
-<input id="username"/>
-<label for="e-mail">E-mail</label>
-<input id="e-mail"/>
-<label for="password">Password</label>
-<input bind:value={password} on:input={onChangePassword} id="password" type="password"/>
-<label for="password-repeat">Password Repeat</label>
-<input bind:value={passwordRepeat} on:input={onChangePasswordRepeat}  id="password-repeat" type="password"/>
-<button disabled={isDisabled}>Sign Up</button>
+<form>
+  <h1>Sign Up</h1>
+  <label for="username">Username</label>
+  <input bind:value={username} id="username" />
+  <label for="e-mail">E-mail</label>
+  <input bind:value={email} id="e-mail" />
+  <label for="password">Password</label>
+  <input bind:value={password} id="password" type="password"/>
+  <label for="password-repeat">Password Repeat</label>
+  <input bind:value={passwordRepeat} id="password-repeat" type="password"/>
+  <button {disabled} on:click|preventDefault={submit}>Sign Up</button>
+</form>
